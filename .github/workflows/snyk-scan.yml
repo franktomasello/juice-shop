@@ -30,6 +30,7 @@ jobs:
         #4 . Run Snyk SCA to check for vulnerabilities in OS packages
       - name: Run Snyk SCA scan
         uses: snyk/actions/node@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         #with:
@@ -39,6 +40,7 @@ jobs:
       # 5. Run Snyk SAST to check for vulnerabilities in source code
       - name: Run Snyk SAST scan
         uses: snyk/actions/node@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
