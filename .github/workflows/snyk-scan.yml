@@ -26,3 +26,11 @@ jobs:
       # 3. Install dependencies with npm ci
       - name: Install dependencies
         run: npm ci
+
+        #4 . Run Snyk SCA to check for vulnerabilities in OS packages
+      - name: Run Snyk SCA scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
