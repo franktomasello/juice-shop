@@ -1,6 +1,6 @@
 name: Snyk Scan
 
-# Trigger the workflow on push and pull request events to the main branch
+# Trigger the workflow on push and pull request events to the master branch
 on:
   push:
     branches: [ master ]
@@ -12,17 +12,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository code
+      # 1. Checkout the repository code
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Set up the Node.js environment
+      # 2. Set up the Node.js environment with caching
       - name: Set up Node.js 20.x
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
-          cache: 'npm'  # Caches npm dependencies to speed up workflow
+          cache: 'npm'
 
-      # Install dependencies
+      # 3. Install dependencies with npm ci
       - name: Install dependencies
-        run: npm install
+        run: npm ci
