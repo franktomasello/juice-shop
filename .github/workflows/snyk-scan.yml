@@ -44,5 +44,5 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: snyk code test
+          command: code test
           #args: --severity-threshold=high
