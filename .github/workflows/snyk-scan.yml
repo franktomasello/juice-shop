@@ -37,3 +37,10 @@ jobs:
 
 
       # 5. Run Snyk SAST to check for vulnerabilities in source code
+      - name: Run Snyk SAST scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: code test
+          args: --severity-threshold=high
