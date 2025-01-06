@@ -15,19 +15,26 @@ jobs:
       # 1. Checkout the repository code
       - name: Checkout repository
         uses: actions/checkout@v3
+      
+      # 2. Log in to DockerHub  
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # 2. Set up the Node.js environment with caching
+      # 3. Set up the Node.js environment with caching
       - name: Set up Node.js 20.x
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
           cache: 'npm'
 
-      # 3. Install dependencies with npm ci
+      # 4. Install dependencies with npm ci
       - name: Install dependencies
         run: npm ci
 
-        #4 . Run Snyk SCA to check for vulnerabilities in OS packages
+      # 5. Run Snyk SCA to check for vulnerabilities in my NPM dependencies
       - name: Run Snyk SCA scan
         uses: snyk/actions/node@master
         continue-on-error: true
@@ -38,7 +45,7 @@ jobs:
           args: --severity-threshold=high
 
 
-      # 5. Run Snyk SAST to check for vulnerabilities in source code
+      # 6. Run Snyk SAST to check for vulnerabilities in source code
       - name: Run Snyk SAST scan
         uses: snyk/actions/node@master
         continue-on-error: true
@@ -47,3 +54,16 @@ jobs:
         with:
           command: code test
           args: --severity-threshold=high
+
+      # 7. Pull the juiceshop image
+      - name: Pull Juice Shop Docker Image
+        run: docker pull bkimminich/juice-shop
+
+      # 8. Tag the image for DockerHub
+      - name: Tag Docker Image
+        run: docker tag bkimminich/juice-shop:latest ${{ secrets.DOCKER_USERNAME }}/juice-shop:latest
+
+      # 9. Push the image to DockerHub
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/juice-shop:latest
+
