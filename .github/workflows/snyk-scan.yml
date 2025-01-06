@@ -32,8 +32,8 @@ jobs:
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high
+        #with:
+          #args: --severity-threshold=high
 
 
       # 5. Run Snyk SAST to check for vulnerabilities in source code
@@ -43,4 +43,4 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: snyk code test
-          args: --severity-threshold=high
+          #args: --severity-threshold=high
